@@ -43,7 +43,7 @@ variable "resource_name_prefix" {
 
 variable "healthchecks_io_key" {
   description = "Health check key for healthchecks.io"
-  default     = "invalid"
+  default     = ""
 }
 
 variable "internal_cidrs" {

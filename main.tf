@@ -72,6 +72,7 @@ resource "aws_kms_alias" "parameter_store" {
 }
 
 resource "aws_ssm_parameter" "healthchecks_io_key" {
+  count     = var.healthchecks_io_key != "" ? 1 : 0
   name      = "/pritunl/${var.resource_name_prefix}/healthchecks-io-key"
   type      = "SecureString"
   value     = "${var.healthchecks_io_key}"
