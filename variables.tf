@@ -1,5 +1,6 @@
 variable "aws_key_name" {
   description = "SSH keypair name for the VPN instance"
+  default     = ""
 }
 
 variable "vpc_id" {
