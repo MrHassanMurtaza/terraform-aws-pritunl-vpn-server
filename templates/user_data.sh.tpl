@@ -73,6 +73,14 @@ cd && rm -rf "\$BACKUP_DEST"
 EOF
 chmod 700 /usr/sbin/mongobackup.sh
 
+if [ -z "$healthchecks_io_key" ]
+then
+cat <<EOF > /etc/cron.daily/pritunl-backup
+#!/bin/bash -e
+export PATH="/usr/local/sbin:/usr/local/bin:\$PATH"
+mongobackup.sh
+EOF
+else
 cat <<EOF > /etc/cron.daily/pritunl-backup
 #!/bin/bash -e
 export PATH="/usr/local/sbin:/usr/local/bin:\$PATH"
@@ -84,6 +92,8 @@ mongobackup.sh && \
                         --with-decryption \
                         --query 'Parameters[*].Value')"
 EOF
+fi
+
 chmod 755 /etc/cron.daily/pritunl-backup
 
 cat <<EOF > /etc/logrotate.d/pritunl
