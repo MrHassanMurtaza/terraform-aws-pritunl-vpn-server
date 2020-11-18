@@ -56,3 +56,8 @@ variable "s3_bucket_name" {
   description = "[String] Optional S3 bucket name for backups"
   default     = ""
 }
+
+variable "public_key" {
+  description = "optional public key"
+  default     = ""
+}

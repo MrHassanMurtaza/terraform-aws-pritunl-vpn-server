@@ -64,6 +64,12 @@ resource "aws_kms_key" "parameter_store" {
           }"
 }
 
+resource "aws_key_pair" "pritunl-vpn" {
+  count      = var.public_key != "" ? 1 : 0
+  key_name   = "pritunl-vpn-key"
+  public_key = var.public_key
+}
+
 resource "aws_kms_alias" "parameter_store" {
   depends_on = ["aws_kms_key.parameter_store"]
 
@@ -273,7 +279,7 @@ resource "aws_security_group" "allow_from_office" {
 resource "aws_instance" "pritunl" {
   ami           = "${var.ami_id}"
   instance_type = "${var.instance_type}"
-  key_name      = "${var.aws_key_name}"
+  key_name      = "${var.aws_key_name}" != "" ? "${var.aws_key_name}": "${aws_key_pair.pritunl-vpn.key_name}"
   user_data     = "${data.template_file.user_data.rendered}"
 
   vpc_security_group_ids = [
